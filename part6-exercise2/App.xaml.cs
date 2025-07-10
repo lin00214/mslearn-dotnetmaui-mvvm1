@@ -1,22 +1,22 @@
 ﻿namespace MovieCatalog;
 
-    public partial class App : Application
+public partial class App : Application
+{
+    public static ViewModels.MovieListViewModel? MainViewModel { get; private set; }
+
+    public App()
     {
-	public static ViewModels.MovieListViewModel? MainViewModel { get; private set; }
+        InitializeComponent();
 
-	public App()
-	{
-		InitializeComponent();
+    }
 
-	}
+    protected override Window CreateWindow(IActivationState? activationState)
+    {
+        var window = new Window(new AppShell());
 
-	protected override Window CreateWindow(IActivationState? activationState)
-	{
-		var window = new Window(new AppShell());
+        MainViewModel = new();
+        MainViewModel.RefreshMovies().ContinueWith((s) => { });
 
-		MainViewModel = new();
-		MainViewModel.RefreshMovies().ContinueWith((s) => { });
-
-		return window;
-	}
+        return window;
+    }
 }
